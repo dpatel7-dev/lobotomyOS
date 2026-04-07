@@ -72,8 +72,10 @@ if [ -d "$LB_SCRIPTS" ]; then
     done
 fi
 
-mkdir -p config/package-lists
-touch config/package-lists/syslinux-override.list.binary
+# Remove ALL binary-stage package lists (syslinux/gfxboot live here)
+find config/package-lists/ -name "*.list.binary" -delete 2>/dev/null || true
+find config/package-lists/ -name "*.binary" -delete 2>/dev/null || true
+rm -rf config/package-lists/*.list.binary 2>/dev/null || true
 
 step "Step 5: Package lists"
 cp "$CONFIG_DIR/packages/packages.list" config/package-lists/lobotomy.list.chroot
