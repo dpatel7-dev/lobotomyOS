@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+export MKSQUASHFS_OPTIONS="-no-progress"
 GREEN='\033[0;32m'; CYAN='\033[0;36m'; RED='\033[0;31m'; BOLD='\033[1m'; NC='\033[0m'
 step() { echo -e "\n${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"; echo -e "${GREEN}${BOLD}  ✓ $1${NC}"; echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"; }
 
@@ -76,7 +77,7 @@ fi
 
 step "Step 7/7: Building ISO (15-30 min)"
 echo "  Sit back — this is the long step."
-lb build 2>&1 | while IFS= read -r line; do
+lb build --verbose 2>&1 | while IFS= read -r line; do
     echo -e "  ${CYAN}▸${NC} $line"
 done
 
