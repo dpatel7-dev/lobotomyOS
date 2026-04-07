@@ -57,9 +57,6 @@ lb config \
     --mirror-chroot-security "http://archive.ubuntu.com/ubuntu" \
     --mirror-binary "http://archive.ubuntu.com/ubuntu" \
     --mirror-binary-security "http://archive.ubuntu.com/ubuntu" \
-    --bootloaders "grub-efi" \
-    --binary-filesystem fat32 \
-    --initsystem systemd \
     --apt-recommends false
 
 # Force GRUB-EFI only — skip syslinux (avoids missing theme packages)
