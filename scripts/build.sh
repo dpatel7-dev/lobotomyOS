@@ -66,9 +66,16 @@ find config/ -type f -name "*.list*" | while read f; do
     sed -i '/gfxboot/d' "$f" 2>/dev/null || true
 done
 
-# Syslinux host tools are now installed — no need to patch scripts
-# Just make sure isolinux files exist in the build area
-echo "  Syslinux scripts left intact (host packages installed)"
+# Neutralize syslinux build script (it tries to install dead theme packages)
+# But we'll create the isolinux directory manually
+LB_SCRIPTS="/usr/lib/live/build"
+if [ -d "$LB_SCRIPTS" ]; then
+    for script in "$LB_SCRIPTS"/lb_binary_syslinux*; do
+        echo '#!/bin/sh' > "$script"
+        echo 'exit 0' >> "$script"
+        chmod +x "$script"
+    done
+fi
 
 # Remove ALL binary-stage package lists (syslinux/gfxboot live here)
 find config/package-lists/ -name "*.list.binary" -delete 2>/dev/null || true
@@ -91,6 +98,26 @@ if [ -d "$CONFIG_DIR/hooks/live" ]; then
     chmod +x config/hooks/live/*
 fi
 
+step "Step 8a: Creating isolinux boot directory"
+mkdir -p binary/isolinux
+if [ -f /usr/lib/ISOLINUX/isolinux.bin ]; then
+    cp /usr/lib/ISOLINUX/isolinux.bin binary/isolinux/
+elif [ -f /usr/lib/syslinux/modules/bios/isolinux.bin ]; then
+    cp /usr/lib/syslinux/modules/bios/isolinux.bin binary/isolinux/
+fi
+
+if [ -d /usr/lib/syslinux/modules/bios ]; then
+    cp /usr/lib/syslinux/modules/bios/ldlinux.c32 binary/isolinux/ 2>/dev/null || true
+    cp /usr/lib/syslinux/modules/bios/libcom32.c32 binary/isolinux/ 2>/dev/null || true
+    cp /usr/lib/syslinux/modules/bios/libutil.c32 binary/isolinux/ 2>/dev/null || true
+    cp /usr/lib/syslinux/modules/bios/vesamenu.c32 binary/isolinux/ 2>/dev/null || true
+fi
+cat > binary/isolinux/isolinux.cfg << 'SYSCONF'
+DEFAULT live
+LABEL live
+  KERNEL /casper/vmlinuz
+  APPEND initrd=/casper/initrd boot=casper quiet splash ---
+SYSCONF
 step "Step 8: Building ISO (15-30 min)"
 lb build --verbose 2>&1 | tee /tmp/lb-build.log || true
 
