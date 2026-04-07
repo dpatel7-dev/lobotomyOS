@@ -39,15 +39,22 @@ lb config \
     --archive-areas "main restricted universe multiverse" \
     --architectures amd64 \
     --binary-images iso-hybrid \
-    --mode debian \
     --system live \
     --iso-application "LobotomyOS" \
-    --iso-publisher "Lobotomy-OS-Project" \
-    --iso-volume "LobotomyOS-1.0" \
+    --iso-publisher "LobotomyOS" \
+    --iso-volume "LobotomyOS" \
     --memtest none \
     --bootappend-live "boot=casper quiet splash" \
+    --parent-mirror-bootstrap "http://archive.ubuntu.com/ubuntu" \
+    --parent-mirror-chroot "http://archive.ubuntu.com/ubuntu" \
+    --parent-mirror-chroot-security "http://archive.ubuntu.com/ubuntu" \
+    --parent-mirror-binary "http://archive.ubuntu.com/ubuntu" \
+    --parent-mirror-binary-security "http://archive.ubuntu.com/ubuntu" \
     --mirror-bootstrap "http://archive.ubuntu.com/ubuntu" \
     --mirror-chroot "http://archive.ubuntu.com/ubuntu" \
+    --mirror-chroot-security "http://archive.ubuntu.com/ubuntu" \
+    --mirror-binary "http://archive.ubuntu.com/ubuntu" \
+    --mirror-binary-security "http://archive.ubuntu.com/ubuntu" \
     --apt-recommends false
 
 step "Step 4/7: Setting up package lists"
