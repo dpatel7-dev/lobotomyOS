@@ -55,7 +55,7 @@ lb config \
     --mirror-binary-security "http://archive.ubuntu.com/ubuntu" \
     --apt-recommends false
 
-step "Step 4: Patching live-build (remove dead syslinux packages)"
+step "Step 4: Patching live-build"
 if [ -f config/binary ]; then
     sed -i '/LB_BOOTLOADERS/d' config/binary
 fi
@@ -67,7 +67,6 @@ find config/ -type f -name "*.list*" | while read f; do
 done
 
 # Neutralize syslinux build script (it tries to install dead theme packages)
-# But we'll create the isolinux directory manually
 LB_SCRIPTS="/usr/lib/live/build"
 if [ -d "$LB_SCRIPTS" ]; then
     for script in "$LB_SCRIPTS"/lb_binary_syslinux*; do
@@ -77,10 +76,9 @@ if [ -d "$LB_SCRIPTS" ]; then
     done
 fi
 
-# Remove ALL binary-stage package lists (syslinux/gfxboot live here)
+# Remove all binary-stage package lists
 find config/package-lists/ -name "*.list.binary" -delete 2>/dev/null || true
 find config/package-lists/ -name "*.binary" -delete 2>/dev/null || true
-rm -rf config/package-lists/*.list.binary 2>/dev/null || true
 
 step "Step 5: Package lists"
 cp "$CONFIG_DIR/packages/packages.list" config/package-lists/lobotomy.list.chroot
@@ -98,14 +96,23 @@ if [ -d "$CONFIG_DIR/hooks/live" ]; then
     chmod +x config/hooks/live/*
 fi
 
-step "Step 8a: Creating isolinux boot directory"
+step "Step 8: Disable AppStream metadata (prevents mirror sync errors)"
+cat > config/hooks/live/0100-disable-appstream.hook.chroot << 'HOOKEOF'
+#!/bin/sh
+rm -f /etc/apt/apt.conf.d/50appstream
+echo 'Acquire::IndexTargets::deb::DEP-11 "false";' > /etc/apt/apt.conf.d/99no-appstream
+echo 'Acquire::IndexTargets::deb::DEP-11-icons "false";' >> /etc/apt/apt.conf.d/99no-appstream
+echo 'Acquire::IndexTargets::deb-src::DEP-11 "false";' >> /etc/apt/apt.conf.d/99no-appstream
+HOOKEOF
+chmod +x config/hooks/live/0100-disable-appstream.hook.chroot
+
+step "Step 9: Creating isolinux boot directory"
 mkdir -p binary/isolinux
 if [ -f /usr/lib/ISOLINUX/isolinux.bin ]; then
     cp /usr/lib/ISOLINUX/isolinux.bin binary/isolinux/
 elif [ -f /usr/lib/syslinux/modules/bios/isolinux.bin ]; then
     cp /usr/lib/syslinux/modules/bios/isolinux.bin binary/isolinux/
 fi
-
 if [ -d /usr/lib/syslinux/modules/bios ]; then
     cp /usr/lib/syslinux/modules/bios/ldlinux.c32 binary/isolinux/ 2>/dev/null || true
     cp /usr/lib/syslinux/modules/bios/libcom32.c32 binary/isolinux/ 2>/dev/null || true
@@ -118,7 +125,8 @@ LABEL live
   KERNEL /casper/vmlinuz
   APPEND initrd=/casper/initrd boot=casper quiet splash ---
 SYSCONF
-step "Step 8: Building ISO (15-30 min)"
+
+step "Step 10: Building ISO (15-30 min)"
 lb build --verbose 2>&1 | tee /tmp/lb-build.log || true
 
 echo ""
