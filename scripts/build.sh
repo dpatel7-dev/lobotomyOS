@@ -59,9 +59,20 @@ lb config \
     --mirror-binary-security "http://archive.ubuntu.com/ubuntu" \
     --apt-recommends false
 
-# Force GRUB-EFI only — skip syslinux (avoids missing theme packages)
-sed -i 's/LB_BOOTLOADERS=.*/LB_BOOTLOADERS="grub-efi"/' config/binary 2>/dev/null || true
-echo 'LB_BOOTLOADERS="grub-efi"' >> config/binary
+# Force GRUB-EFI only — kill all syslinux/gfxboot references
+for f in config/binary config/chroot config/bootstrap config/common; do
+    if [ -f "$f" ]; then
+        sed -i 's/LB_BOOTLOADERS=.*/LB_BOOTLOADERS="grub-efi"/' "$f"
+        sed -i '/syslinux/d' "$f"
+        sed -i '/gfxboot/d' "$f"
+    fi
+done
+# Remove syslinux packages from any auto-generated package lists
+find config/ -name "*.list*" -exec sed -i '/syslinux-themes/d' {} \; 2>/dev/null || true
+find config/ -name "*.list*" -exec sed -i '/gfxboot/d' {} \; 2>/dev/null || true
+# Create override to prevent live-build from adding them back
+mkdir -p config/package-lists
+echo "" > config/package-lists/syslinux.list.binary
 
 step "Step 4/7: Setting up package lists"
 
