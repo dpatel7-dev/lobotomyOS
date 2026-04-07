@@ -45,6 +45,7 @@ lb config \
     --iso-publisher "LobotomyOS" \
     --iso-volume "LobotomyOS" \
     --memtest none \
+    --linux-flavours "generic" \
     --bootappend-live "boot=casper quiet splash" \
     --parent-mirror-bootstrap "http://archive.ubuntu.com/ubuntu" \
     --parent-mirror-chroot "http://archive.ubuntu.com/ubuntu" \
@@ -56,6 +57,9 @@ lb config \
     --mirror-chroot-security "http://archive.ubuntu.com/ubuntu" \
     --mirror-binary "http://archive.ubuntu.com/ubuntu" \
     --mirror-binary-security "http://archive.ubuntu.com/ubuntu" \
+    --bootloaders "grub-efi" \
+    --binary-filesystem fat32 \
+    --initsystem systemd \
     --apt-recommends false
 
 step "Step 4/7: Setting up package lists"
