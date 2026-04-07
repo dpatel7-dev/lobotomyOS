@@ -77,7 +77,7 @@ fi
 step "Step 7/7: Building ISO (15-30 min)"
 echo "  Sit back — this is the long step."
 lb build 2>&1 | while IFS= read -r line; do
-    echo "$line" | grep -qiE "(P: |Setting up|Unpacking|Installing)" && echo -e "  ${CYAN}▸${NC} $line"
+    echo -e "  ${CYAN}▸${NC} $line"
 done
 
 ISO_FILE=$(find "$BUILD_DIR" -name "*.iso" -type f 2>/dev/null | head -1)
