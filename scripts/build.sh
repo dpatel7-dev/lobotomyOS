@@ -67,8 +67,11 @@ done
 
 LB_SCRIPTS="/usr/lib/live/build"
 if [ -d "$LB_SCRIPTS" ]; then
-    for script in "$LB_SCRIPTS"/lb_binary_syslinux* "$LB_SCRIPTS"/lb_chroot_syslinux*; do
-        [ -f "$script" ] && chmod -x "$script" && echo "  Disabled: $(basename $script)"
+    for script in "$LB_SCRIPTS"/lb_binary_syslinux*; do
+        echo '#!/bin/sh' > "$script"
+        echo 'exit 0' >> "$script"
+        chmod +x "$script"
+        echo "  Neutralized: $(basename $script)"
     done
 fi
 
