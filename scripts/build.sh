@@ -22,7 +22,8 @@ echo -e "\n${BOLD}  Lobotomy OS — ISO Builder${NC}\n"
 step "Step 1: Dependencies"
 apt-get update -qq
 apt-get install -y -qq live-build debootstrap squashfs-tools xorriso \
-    grub-pc-bin grub-efi-amd64-bin mtools dosfstools 2>/dev/null || true
+    grub-pc-bin grub-efi-amd64-bin mtools dosfstools \
+    isolinux syslinux-utils syslinux-common 2>/dev/null || true
 
 step "Step 2: Clean slate"
 rm -rf "$BUILD_DIR"
