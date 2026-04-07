@@ -66,15 +66,9 @@ find config/ -type f -name "*.list*" | while read f; do
     sed -i '/gfxboot/d' "$f" 2>/dev/null || true
 done
 
-LB_SCRIPTS="/usr/lib/live/build"
-if [ -d "$LB_SCRIPTS" ]; then
-    for script in "$LB_SCRIPTS"/lb_binary_syslinux*; do
-        echo '#!/bin/sh' > "$script"
-        echo 'exit 0' >> "$script"
-        chmod +x "$script"
-        echo "  Neutralized: $(basename $script)"
-    done
-fi
+# Syslinux host tools are now installed — no need to patch scripts
+# Just make sure isolinux files exist in the build area
+echo "  Syslinux scripts left intact (host packages installed)"
 
 # Remove ALL binary-stage package lists (syslinux/gfxboot live here)
 find config/package-lists/ -name "*.list.binary" -delete 2>/dev/null || true
