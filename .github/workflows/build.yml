@@ -1,0 +1,46 @@
+name: Build Lobotomy OS ISO
+on:
+  push:
+    branches: [ main ]
+    paths-ignore: [ '**.md', 'docs/**' ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y live-build debootstrap squashfs-tools xorriso \
+            grub-pc-bin grub-efi-amd64-bin grub-efi-ia32-bin mtools dosfstools \
+            isolinux syslinux-utils
+
+      - name: Build ISO
+        run: |
+          chmod +x scripts/build.sh
+          sudo ./scripts/build.sh
+
+      - name: Upload ISO
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: lobotomy-os-iso
+          path: output/*.iso
+          retention-days: 14
+          compression-level: 0
+
+      - name: Summary
+        if: always()
+        run: |
+          if [ -f output/lobotomy-os-1.0.iso ]; then
+            SIZE=$(du -sh output/lobotomy-os-1.0.iso | cut -f1)
+            echo "## ✅ Build Successful" >> $GITHUB_STEP_SUMMARY
+            echo "**ISO Size:** $SIZE" >> $GITHUB_STEP_SUMMARY
+            echo "Download from **Artifacts** below." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## ❌ Build Failed" >> $GITHUB_STEP_SUMMARY
+          fi

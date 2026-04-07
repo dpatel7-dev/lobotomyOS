@@ -1,0 +1,7 @@
+build/
+output/
+*.iso
+*.qcow2
+.DS_Store
+*.swp
+*~

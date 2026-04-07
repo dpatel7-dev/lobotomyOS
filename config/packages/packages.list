@@ -1,0 +1,112 @@
+# ╔═══════════════════════════════════════════╗
+# ║  Lobotomy OS — Package List            ║
+# ║  Privacy-first • Glassmorphism • Freedom  ║
+# ╚═══════════════════════════════════════════╝
+
+# ── Core Desktop ──
+ubuntu-desktop-minimal
+gnome-shell
+gnome-session
+gnome-control-center
+gnome-tweaks
+gnome-shell-extensions
+gnome-shell-extension-manager
+gdm3
+mutter
+
+# ── System ──
+linux-generic
+network-manager
+network-manager-gnome
+network-manager-openvpn
+network-manager-openvpn-gnome
+pulseaudio
+pipewire
+pipewire-pulse
+bluez
+
+# ── Files ──
+nautilus
+file-roller
+gvfs
+gvfs-backends
+
+# ── Privacy Browsers ──
+firefox
+chromium-browser
+
+# ── Privacy & Unblocking Tools ──
+wireguard
+wireguard-tools
+openvpn
+tor
+torbrowser-launcher
+privoxy
+proxychains4
+dnscrypt-proxy
+stubby
+openresolv
+shadowsocks-libev
+obfs4proxy
+
+# ── Encrypted DNS ──
+systemd-resolved
+
+# ── Network Tools ──
+nmap
+traceroute
+whois
+dnsutils
+net-tools
+iptables
+curl
+wget
+
+# ── Terminal & Dev ──
+gnome-terminal
+gnome-text-editor
+vim
+git
+htop
+neofetch
+
+# ── Utilities ──
+gnome-calculator
+gnome-system-monitor
+gnome-disk-utility
+gnome-screenshot
+evince
+gnome-software
+flatpak
+
+# ── Theming (Glassmorphism) ──
+adwaita-icon-theme-full
+papirus-icon-theme
+fonts-noto
+fonts-noto-color-emoji
+fonts-firacode
+gnome-shell-extension-prefs
+
+# ── Security ──
+ufw
+gufw
+fail2ban
+apparmor
+apparmor-utils
+clamav
+unattended-upgrades
+bleachbit
+
+# ── Pop!_OS Tiling ──
+gnome-shell-extension-pop-shell
+
+# ── Installer ──
+calamares
+calamares-settings-ubuntu
+
+# ── Boot & Drivers ──
+plymouth
+plymouth-themes
+xserver-xorg
+xserver-xorg-video-all
+xserver-xorg-input-all

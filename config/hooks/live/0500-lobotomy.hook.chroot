@@ -1,0 +1,121 @@
+#!/bin/bash
+set -e
+echo "[Lobotomy OS] Configuring system..."
+
+# ── Branding ──
+echo "lobotomy-os" > /etc/hostname
+cat > /etc/os-release << 'OSREL'
+PRETTY_NAME="Lobotomy OS 1.0"
+NAME="Lobotomy OS"
+VERSION_ID="1.0"
+VERSION="1.0 (Noble)"
+ID=lobotomy-os
+ID_LIKE=ubuntu debian
+UBUNTU_CODENAME=noble
+OSREL
+
+cat > /etc/lsb-release << 'LSB'
+DISTRIB_ID=LobotomyOS
+DISTRIB_RELEASE=1.0
+DISTRIB_CODENAME=noble
+DISTRIB_DESCRIPTION="Lobotomy OS 1.0"
+LSB
+
+# ── Encrypted DNS (DNS-over-HTTPS via systemd-resolved) ──
+mkdir -p /etc/systemd/resolved.conf.d
+cat > /etc/systemd/resolved.conf.d/dns-over-tls.conf << 'DNS'
+[Resolve]
+DNS=1.1.1.1#cloudflare-dns.com 1.0.0.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net
+FallbackDNS=8.8.8.8#dns.google
+DNSOverTLS=yes
+DNSSEC=allow-downgrade
+Domains=~.
+DNS
+
+# Make resolved the system DNS
+ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf 2>/dev/null || true
+
+# ── Privoxy (local filtering proxy) ──
+if [ -f /etc/privoxy/config ]; then
+    sed -i 's/^listen-address.*/listen-address 127.0.0.1:8118/' /etc/privoxy/config
+    echo "forward-socks5 / 127.0.0.1:9050 ." >> /etc/privoxy/config 2>/dev/null || true
+fi
+
+# ── DNSCrypt-proxy config ──
+if [ -d /etc/dnscrypt-proxy ]; then
+    cat > /etc/dnscrypt-proxy/dnscrypt-proxy.toml << 'DNSCRYPT'
+listen_addresses = ['127.0.0.1:5353']
+server_names = ['cloudflare', 'cloudflare-ipv6', 'quad9-doh-ip4-filter-pri']
+doh_servers = true
+require_dnssec = true
+require_nofilter = true
+require_nolog = true
+DNSCRYPT
+fi
+
+# ── Proxychains default config ──
+if [ -f /etc/proxychains4.conf ]; then
+    sed -i 's/^socks4.*/socks5 127.0.0.1 9050/' /etc/proxychains4.conf
+fi
+
+# ── Wallpaper link ──
+[ -f /usr/share/backgrounds/lobotomy-os/default.svg ] && \
+    ln -sf /usr/share/backgrounds/lobotomy-os/default.svg /usr/share/backgrounds/warty-final-ubuntu.png 2>/dev/null || true
+
+# ── Security Hardening ──
+dconf update 2>/dev/null || true
+
+ufw default deny incoming 2>/dev/null || true
+ufw default allow outgoing 2>/dev/null || true
+ufw --force enable 2>/dev/null || true
+
+if [ -d /etc/fail2ban ]; then
+    cat > /etc/fail2ban/jail.local << 'JAIL'
+[DEFAULT]
+bantime = 3600
+maxretry = 3
+[sshd]
+enabled = true
+JAIL
+fi
+
+cat > /etc/apt/apt.conf.d/20auto-upgrades << 'AUTO'
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Unattended-Upgrade "1";
+APT::Periodic::AutocleanInterval "7";
+AUTO
+
+[ -f /etc/ssh/sshd_config ] && {
+    sed -i 's/#PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
+    sed -i 's/#MaxAuthTries.*/MaxAuthTries 3/' /etc/ssh/sshd_config
+}
+
+echo "* hard core 0" >> /etc/security/limits.conf
+echo "fs.suid_dumpable = 0" >> /etc/sysctl.d/99-security.conf
+
+# ── Prevent DNS leaks ──
+cat > /etc/sysctl.d/99-privacy.conf << 'PRIV'
+net.ipv6.conf.all.use_tempaddr = 2
+net.ipv6.conf.default.use_tempaddr = 2
+net.ipv4.conf.all.send_redirects = 0
+net.ipv4.conf.all.accept_redirects = 0
+PRIV
+
+# ── Enable services ──
+systemctl enable gdm3 2>/dev/null || true
+systemctl enable NetworkManager 2>/dev/null || true
+systemctl enable ufw 2>/dev/null || true
+systemctl enable fail2ban 2>/dev/null || true
+systemctl enable apparmor 2>/dev/null || true
+systemctl enable systemd-resolved 2>/dev/null || true
+systemctl enable tor 2>/dev/null || true
+systemctl enable privoxy 2>/dev/null || true
+
+# ── Plymouth ──
+[ -d /usr/share/plymouth/themes/lobotomy-os ] && {
+    plymouth-set-default-theme lobotomy-os 2>/dev/null || true
+    update-initramfs -u 2>/dev/null || true
+}
+
+apt-get clean; rm -rf /tmp/*
+echo "[Lobotomy OS] Configuration complete!"

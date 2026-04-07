@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Lobotomy OS
+Description=Minimal glassmorphism boot splash
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/lobotomy-os
+ScriptFile=/usr/share/plymouth/themes/lobotomy-os/lobotomy-os.script

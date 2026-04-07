@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <radialGradient id="g1" cx="20%" cy="80%" r="50%">
+      <stop offset="0%" stop-color="#1a1a2e" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#0c0c14" stop-opacity="1"/>
+    </radialGradient>
+  </defs>
+  <rect width="3840" height="2160" fill="#0c0c14"/>
+  <rect width="3840" height="2160" fill="url(#g1)"/>
+  <!-- Subtle geometric grid -->
+  <g opacity="0.025" stroke="#ffffff" stroke-width="0.5" fill="none">
+    <line x1="960" y1="0" x2="960" y2="2160"/>
+    <line x1="1920" y1="0" x2="1920" y2="2160"/>
+    <line x1="2880" y1="0" x2="2880" y2="2160"/>
+    <line x1="0" y1="540" x2="3840" y2="540"/>
+    <line x1="0" y1="1080" x2="3840" y2="1080"/>
+    <line x1="0" y1="1620" x2="3840" y2="1620"/>
+  </g>
+  <!-- Floating glass circles -->
+  <circle cx="680" cy="1600" r="280" fill="rgba(255,255,255,0.012)" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
+  <circle cx="3200" cy="500" r="350" fill="rgba(255,255,255,0.008)" stroke="rgba(255,255,255,0.015)" stroke-width="1"/>
+  <circle cx="1920" cy="1080" r="500" fill="rgba(255,255,255,0.005)" stroke="rgba(255,255,255,0.01)" stroke-width="1"/>
+  <!-- Corner accent dots -->
+  <g opacity="0.04" fill="#ffffff">
+    <circle cx="60" cy="60" r="2"/>
+    <circle cx="3780" cy="60" r="2"/>
+    <circle cx="60" cy="2100" r="2"/>
+    <circle cx="3780" cy="2100" r="2"/>
+  </g>
+  <text x="3740" y="2130" fill="rgba(255,255,255,0.025)" font-family="sans-serif" font-size="14" font-weight="500" text-anchor="end">Lobotomy OS</text>
+</svg>

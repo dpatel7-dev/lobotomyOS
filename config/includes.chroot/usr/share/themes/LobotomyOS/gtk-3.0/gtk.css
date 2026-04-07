@@ -1,0 +1,139 @@
+/* ═══════════════════════════════════════════════
+   Lobotomy OS — Glassmorphism GTK Theme
+   Frosted glass • No gradients • Clean surfaces
+   macOS button layout • Zorin refinement
+   ═══════════════════════════════════════════════ */
+
+/* ── Colors ── */
+@define-color bg_color #161620;
+@define-color fg_color #e2e4f0;
+@define-color base_color #111118;
+@define-color selected_bg rgba(255, 255, 255, 0.12);
+@define-color selected_fg #ffffff;
+@define-color accent #ffffff;
+@define-color borders rgba(255, 255, 255, 0.08);
+@define-color glass rgba(255, 255, 255, 0.04);
+@define-color glass_hover rgba(255, 255, 255, 0.07);
+@define-color glass_active rgba(255, 255, 255, 0.10);
+@define-color glass_border rgba(255, 255, 255, 0.10);
+@define-color error_color #ff6b7a;
+@define-color warning_color #f0c060;
+@define-color success_color #6bdf8a;
+@define-color headerbar_bg rgba(18, 18, 26, 0.88);
+
+* { outline-color: alpha(@accent, 0.2); }
+
+/* ── Windows ── */
+window { background-color: @bg_color; color: @fg_color; }
+window.background { background-color: @bg_color; }
+decoration {
+    border-radius: 14px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.05);
+    margin: 10px;
+}
+
+/* ── Header Bars (Frosted Glass) ── */
+headerbar {
+    background-color: @headerbar_bg;
+    color: @fg_color;
+    border-bottom: 1px solid @borders;
+    min-height: 44px;
+    padding: 0 10px;
+}
+headerbar:backdrop { background-color: rgba(16,16,24,0.92); color: rgba(226,228,240,0.5); }
+headerbar .title { font-weight: 600; font-size: 13px; }
+headerbar button { background: transparent; border: none; border-radius: 8px; color: @fg_color; transition: all 120ms ease; }
+headerbar button:hover { background-color: @glass_hover; }
+
+/* ── macOS-style Window Buttons ── */
+windowcontrols button {
+    min-width: 14px; min-height: 14px; border-radius: 50%;
+    margin: 0 4px; padding: 0;
+    background-color: rgba(255,255,255,0.12); border: none;
+    transition: all 150ms ease;
+}
+windowcontrols button.close { background-color: @error_color; }
+windowcontrols button.close:hover { background-color: shade(@error_color, 1.15); }
+windowcontrols button.minimize { background-color: @warning_color; }
+windowcontrols button.minimize:hover { background-color: shade(@warning_color, 1.15); }
+windowcontrols button.maximize { background-color: @success_color; }
+windowcontrols button.maximize:hover { background-color: shade(@success_color, 1.15); }
+
+/* ── Buttons (Glass) ── */
+button {
+    background-color: @glass;
+    color: @fg_color;
+    border: 1px solid @glass_border;
+    border-radius: 10px;
+    padding: 6px 18px;
+    min-height: 30px;
+    transition: all 120ms ease;
+}
+button:hover { background-color: @glass_hover; border-color: rgba(255,255,255,0.14); }
+button:active { background-color: @glass_active; }
+button:checked { background-color: rgba(255,255,255,0.14); color: #fff; }
+button.suggested-action { background-color: rgba(255,255,255,0.14); color: #fff; border: 1px solid rgba(255,255,255,0.18); font-weight: 600; }
+button.suggested-action:hover { background-color: rgba(255,255,255,0.18); }
+button.destructive-action { background-color: rgba(255,107,122,0.15); color: @error_color; border: 1px solid rgba(255,107,122,0.2); }
+
+/* ── Text Entries (Glass) ── */
+entry {
+    background-color: rgba(0,0,0,0.3);
+    color: @fg_color;
+    border: 1px solid @borders;
+    border-radius: 10px;
+    padding: 8px 14px;
+    caret-color: #fff;
+    transition: all 150ms ease;
+}
+entry:focus { border-color: rgba(255,255,255,0.25); box-shadow: 0 0 0 2px rgba(255,255,255,0.06); }
+
+/* ── Lists & Rows ── */
+list { background-color: transparent; }
+list row { padding: 4px; border-radius: 10px; transition: background 100ms ease; }
+list row:hover { background-color: @glass; }
+list row:selected { background-color: @selected_bg; }
+
+/* ── Sidebar (Frosted) ── */
+.sidebar { background-color: rgba(14,14,20,0.9); border-right: 1px solid @borders; }
+.sidebar row:selected { background-color: @selected_bg; }
+
+/* ── Switches ── */
+switch { border-radius: 14px; background-color: rgba(255,255,255,0.08); border: none; min-width: 44px; min-height: 24px; }
+switch:checked { background-color: rgba(255,255,255,0.22); }
+switch slider { border-radius: 50%; background-color: white; min-width: 20px; min-height: 20px; margin: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+
+/* ── Checkboxes & Radios ── */
+check, radio { border: 2px solid rgba(255,255,255,0.18); background: transparent; min-width: 20px; min-height: 20px; border-radius: 5px; }
+radio { border-radius: 50%; }
+check:checked, radio:checked { background-color: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.3); }
+
+/* ── Scrollbars (Minimal) ── */
+scrollbar { background: transparent; }
+scrollbar slider { background-color: rgba(255,255,255,0.10); border-radius: 100px; min-width: 4px; min-height: 4px; }
+scrollbar slider:hover { background-color: rgba(255,255,255,0.18); min-width: 8px; }
+
+/* ── Tooltips (Glass) ── */
+tooltip { background-color: rgba(20,20,30,0.92); border-radius: 10px; border: 1px solid @borders; padding: 6px 12px; }
+
+/* ── Menus / Popovers (Frosted Glass) ── */
+popover, menu {
+    background-color: rgba(20,20,30,0.88);
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 6px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+}
+popover modelbutton:hover, menu menuitem:hover { background-color: @glass_hover; border-radius: 8px; }
+
+/* ── Notebooks / Tabs ── */
+notebook header tab { padding: 8px 16px; border-radius: 10px 10px 0 0; color: rgba(226,228,240,0.5); }
+notebook header tab:checked { color: #fff; border-bottom: 2px solid rgba(255,255,255,0.5); }
+
+/* ── Progress Bars ── */
+progressbar trough { background-color: rgba(255,255,255,0.05); border-radius: 100px; min-height: 4px; }
+progressbar progress { background-color: rgba(255,255,255,0.35); border-radius: 100px; min-height: 4px; }
+
+/* ── Nautilus ── */
+.nautilus-window .sidebar { background-color: rgba(14,14,20,0.9); }
+.nautilus-window .floating-bar { background-color: rgba(255,255,255,0.12); border-radius: 8px; }

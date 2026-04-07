@@ -1,0 +1,8 @@
+{
+  "name": "Lobotomy OS Build",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y live-build debootstrap squashfs-tools xorriso grub-pc-bin grub-efi-amd64-bin mtools dosfstools isolinux syslinux-utils qemu-system-x86 qemu-utils novnc websockify",
+  "forwardPorts": [6080],
+  "portsAttributes": { "6080": { "label": "Lobotomy Desktop", "onAutoForward": "notify" } },
+  "remoteUser": "vscode"
+}

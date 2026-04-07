@@ -1,0 +1,102 @@
+/* ═══════════════════════════════════════════════
+   Lobotomy OS — GNOME Shell Glassmorphism
+   Frosted panels • Glass dock • Clean overview
+   ═══════════════════════════════════════════════ */
+
+/* ── Top Panel (Frosted Glass) ── */
+#panel {
+    background-color: rgba(12, 12, 18, 0.55);
+    font-weight: 500;
+    height: 30px;
+    color: rgba(255,255,255,0.85);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+#panel:overview { background-color: transparent; border: none; }
+#panel .panel-button { color: rgba(255,255,255,0.75); border-radius: 8px; margin: 2px 1px; transition-duration: 120ms; }
+#panel .panel-button:hover { background-color: rgba(255,255,255,0.08); color: white; }
+#panel .panel-button:active, #panel .panel-button:checked { background-color: rgba(255,255,255,0.12); }
+
+/* ── Search (Glass) ── */
+.search-entry {
+    background-color: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 28px;
+    padding: 12px 24px;
+    color: white;
+    font-size: 16px;
+    max-width: 520px;
+}
+.search-entry:focus { border-color: rgba(255,255,255,0.2); box-shadow: 0 0 0 2px rgba(255,255,255,0.05); }
+
+/* ── App Grid ── */
+.app-folder-dialog { background-color: rgba(18,18,28,0.88); border-radius: 20px; border: 1px solid rgba(255,255,255,0.06); }
+.app-well-app .overview-icon { font-size: 12px; color: rgba(255,255,255,0.85); }
+.app-well-app:hover .overview-icon { background-color: rgba(255,255,255,0.06); border-radius: 16px; }
+.app-well-app:active .overview-icon { background-color: rgba(255,255,255,0.10); }
+
+/* ── Dock (Frosted Glass — macOS style) ── */
+#dash {
+    background-color: rgba(16,16,24,0.55);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+    padding: 6px 8px;
+    margin-bottom: 14px;
+}
+#dash .dash-background { background-color: transparent; }
+.dash-item-container .app-well-app .overview-icon { padding: 6px; border-radius: 14px; }
+.dash-item-container .app-well-app:hover .overview-icon { background-color: rgba(255,255,255,0.08); }
+.dash-item-container .app-well-app:active .overview-icon { background-color: rgba(255,255,255,0.14); }
+
+/* ── Running Dot (macOS style) ── */
+.app-well-app-running-dot { background-color: rgba(255,255,255,0.6); width: 5px; height: 5px; border-radius: 50%; margin-bottom: 2px; }
+
+/* ── Show Apps ── */
+.show-apps .overview-icon { background-color: rgba(255,255,255,0.04); border-radius: 14px; color: rgba(255,255,255,0.4); }
+.show-apps .overview-icon:hover { background-color: rgba(255,255,255,0.08); color: white; }
+
+/* ── Notifications (Glass cards) ── */
+.message {
+    background-color: rgba(20,20,30,0.82);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: white;
+    margin: 4px 8px;
+}
+.message:hover { background-color: rgba(25,25,38,0.88); }
+
+/* ── Quick Settings Panel (Glass) ── */
+.quick-settings {
+    background-color: rgba(18,18,28,0.82);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 12px;
+    margin: 4px 8px 8px;
+}
+.quick-toggle { background-color: rgba(255,255,255,0.05); border-radius: 14px; padding: 12px; }
+.quick-toggle:checked { background-color: rgba(255,255,255,0.14); }
+.quick-toggle:hover { background-color: rgba(255,255,255,0.08); }
+
+/* ── Calendar ── */
+.calendar-day-base.calendar-day-today { background-color: rgba(255,255,255,0.2); color: white; border-radius: 50%; font-weight: 700; }
+
+/* ── OSD ── */
+.osd-window { background-color: rgba(18,18,28,0.88); border-radius: 18px; border: 1px solid rgba(255,255,255,0.06); }
+.osd-window .level { background-color: rgba(255,255,255,0.08); border-radius: 100px; }
+.osd-window .level:checked { background-color: rgba(255,255,255,0.35); }
+
+/* ── Modal Dialogs (Glass) ── */
+.modal-dialog { background-color: rgba(18,18,28,0.92); border-radius: 20px; border: 1px solid rgba(255,255,255,0.06); color: white; }
+
+/* ── Login ── */
+.login-dialog .login-dialog-prompt-entry {
+    background-color: rgba(255,255,255,0.06);
+    border: 2px solid rgba(255,255,255,0.10);
+    border-radius: 26px;
+    padding: 10px 18px;
+    color: white;
+}
+.login-dialog .login-dialog-prompt-entry:focus { border-color: rgba(255,255,255,0.3); }
+
+/* ── Workspace Indicators ── */
+.ws-switcher-indicator { background-color: rgba(255,255,255,0.12); border-radius: 100px; }
+.ws-switcher-indicator:active { background-color: rgba(255,255,255,0.4); }

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=LobotomyOS
+Comment=Glassmorphism dark theme — frosted glass, no gradients
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=LobotomyOS
+MetacityTheme=LobotomyOS
+IconTheme=Papirus-Dark
+CursorTheme=Adwaita
+ButtonLayout=close,minimize,maximize:appmenu
