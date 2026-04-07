@@ -47,7 +47,7 @@ lb config \
     --memtest none \
     --bootappend-live "boot=casper quiet splash" \
     --mirror-bootstrap "http://archive.ubuntu.com/ubuntu" \
-    --mirror-chroot-security "http://security.ubuntu.com/ubuntu" \
+    --mirror-chroot "http://archive.ubuntu.com/ubuntu" \
     --apt-recommends false
 
 step "Step 4/7: Setting up package lists"
