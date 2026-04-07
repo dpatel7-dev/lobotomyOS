@@ -62,6 +62,12 @@ lb config \
     --initsystem systemd \
     --apt-recommends false
 
+# Force GRUB-EFI only — skip syslinux (avoids missing theme packages)
+sed -i 's/LB_BOOTLOADERS=.*/LB_BOOTLOADERS="grub-efi"/' config/binary 2>/dev/null || true
+echo 'LB_BOOTLOADERS="grub-efi"' >> config/binary
+
+step "Step 4/7: Setting up package lists"
+
 step "Step 4/7: Setting up package lists"
 mkdir -p "$BUILD_DIR/config/package-lists"
 cp "$CONFIG_DIR/packages/packages.list" "$BUILD_DIR/config/package-lists/lobotomy.list.chroot"
