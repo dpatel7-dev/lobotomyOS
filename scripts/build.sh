@@ -42,7 +42,7 @@ lb config \
     --iso-volume "LobotomyOS" \
     --memtest none \
     --linux-flavours "generic" \
-    --bootappend-live "boot=casper quiet splash" \
+    --bootappend-live "boot=live quiet splash" \
     --parent-mirror-bootstrap "http://archive.ubuntu.com/ubuntu" \
     --parent-mirror-chroot "http://archive.ubuntu.com/ubuntu" \
     --parent-mirror-chroot-security "http://archive.ubuntu.com/ubuntu" \
@@ -66,7 +66,6 @@ find config/ -type f -name "*.list*" | while read f; do
     sed -i '/gfxboot/d' "$f" 2>/dev/null || true
 done
 
-# Neutralize syslinux build script (it tries to install dead theme packages)
 LB_SCRIPTS="/usr/lib/live/build"
 if [ -d "$LB_SCRIPTS" ]; then
     for script in "$LB_SCRIPTS"/lb_binary_syslinux*; do
@@ -76,7 +75,6 @@ if [ -d "$LB_SCRIPTS" ]; then
     done
 fi
 
-# Remove all binary-stage package lists
 find config/package-lists/ -name "*.list.binary" -delete 2>/dev/null || true
 find config/package-lists/ -name "*.binary" -delete 2>/dev/null || true
 
@@ -122,8 +120,8 @@ fi
 cat > binary/isolinux/isolinux.cfg << 'SYSCONF'
 DEFAULT live
 LABEL live
-  KERNEL /casper/vmlinuz
-  APPEND initrd=/casper/initrd boot=casper quiet splash ---
+  KERNEL /live/vmlinuz
+  APPEND initrd=/live/initrd.img boot=live quiet splash ---
 SYSCONF
 
 step "Step 10: Building ISO (15-30 min)"
